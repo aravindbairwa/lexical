@@ -26,6 +26,7 @@ import {
 } from 'lexical';
 import {useEffect} from 'react';
 import invariant from 'shared/invariant';
+// import LinkPreview from '../../lexical-playground/src/ui/LinkPreview';
 
 type ChangeHandler = (url: string | null, prevUrl: string | null) => void;
 
@@ -136,6 +137,30 @@ function handleLinkCreation(
       node,
     );
 
+    // let html;
+    // eslint-disable-next-line no-console
+    // fetch(match.url).then((res) => res.text()).then((data) => console.log(data));
+    // fetch(`/api/link-preview?url=${encodeURI(match.url)}`)
+    // .then((response) => response.text())
+    // .then((preview) => {
+    // eslint-disable-next-line no-console
+    // console.log(preview);
+    // });
+    // eslint-disable-next-line no-console
+    // console.log(html)
+
+    // const meta = {
+    //   description : "Search the world's information...",
+    //   domain : 'http://google.com',
+    //   image: 'http://google.com/images/srpr/logo9w.png',
+    //   site_name: 'Google',
+    //   title: 'Google',
+    //   type: 'site'
+    // }
+
+    // // eslint-disable-next-line no-console
+    // fetch(`https://opengraph.io/api/1.1/site/${match.url}`).then(res => console.log(res))
+
     if (isValid) {
       let linkTextNode;
       if (invalidMatchEnd + matchStart === 0) {
@@ -148,11 +173,41 @@ function handleLinkCreation(
           invalidMatchEnd + matchStart + matchLength,
         );
       }
+
+      //   <div className="LinkPreview__container">
+      //   {preview.img && (
+      //     <div className="LinkPreview__imageWrapper">
+      //       <img
+      //         src={preview.image}
+      //         alt={preview.title}
+      //         className="LinkPreview__image"
+      //       />
+      //     </div>
+      //   )}
+      //   {preview.domain && (
+      //     <div className="LinkPreview__domain">{preview.domain}</div>
+      //   )}
+      //   {preview.title && (
+      //     <div className="LinkPreview__title">{preview.title}</div>
+      //   )}
+      //   {preview.description && (
+      //     <div className="LinkPreview__description">
+      //       {preview.description}
+      //     </div>
+      //   )}
+      // </div>
+      // const unflurredDetails = document.createElement('div');
+      // unflurredDetails.innerHTML= 'Wooh!'
+
+      // eslint-disable-next-line no-console
+      // console.log('attributes',{...match.attributes, ...meta})
+      // const linkPreview = unflurredDetails;
       const linkNode = $createAutoLinkNode(match.url, match.attributes);
       const textNode = $createTextNode(match.text);
       textNode.setFormat(linkTextNode.getFormat());
       textNode.setDetail(linkTextNode.getDetail());
       linkNode.append(textNode);
+      // linkNode.append(linkPreview)
       linkTextNode.replace(linkNode);
       onChange(match.url, null);
       invalidMatchEnd = 0;

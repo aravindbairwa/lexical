@@ -260,6 +260,14 @@ export type SerializedAutoLinkNode = Spread<
   SerializedLinkNode
 >;
 
+export type SerializedAutoUnflurLinkNode = Spread<
+  {
+    type: 'autoUnflurLink';
+    version: 1;
+  },
+  SerializedAutoLinkNode
+>;
+
 // Custom node type to override `canInsertTextAfter` that will
 // allow typing within the link
 export class AutoLinkNode extends LinkNode {
@@ -325,6 +333,71 @@ export function $isAutoLinkNode(
 ): node is AutoLinkNode {
   return node instanceof AutoLinkNode;
 }
+
+// AutoUnflurLinkNode wrapper over auto
+// export class AutoUnflurLinkNode extends LinkNode {
+//   static getType(): string {
+//     return 'autounflurlink';
+//   }
+
+//   static clone(node: AutoUnflurLinkNode): AutoUnflurLinkNode {
+//     return new AutoUnflurLinkNode(
+//       node.__url,
+//       {rel: node.__rel, target: node.__target},
+//       node.__key,
+//     );
+//   }
+
+//   static importJSON(serializedNode: SerializedAutoUnflurLinkNode): AutoUnflurLinkNode {
+//     const node = $createAutoUnflurLinkNode(serializedNode.url, {
+//       rel: serializedNode.rel,
+//       target: serializedNode.target,
+//     });
+//     node.setFormat(serializedNode.format);
+//     node.setIndent(serializedNode.indent);
+//     node.setDirection(serializedNode.direction);
+//     return node;
+//   }
+
+//   static importDOM(): null {
+//     // TODO: Should link node should handle the import over autolink?
+//     return null;
+//   }
+
+//   exportJSON(): SerializedAutoUnflurLinkNode {
+//     return {
+//       ...super.exportJSON(),
+//       type: 'autolink',
+//       version: 1,
+//     };
+//   }
+
+//   insertNewAfter(selection: RangeSelection): null | ElementNode {
+//     const element = this.getParentOrThrow().insertNewAfter(selection);
+//     if ($isElementNode(element)) {
+//       const linkNode = $createAutoUnflurLinkNode(this.__url, {
+//         rel: this._rel,
+//         target: this.__target,
+//       });
+//       element.append(linkNode);
+//       return linkNode;
+//     }
+//     return null;
+//   }
+// }
+
+// export function $createAutoUnflurLinkNode(
+//   url: string,
+//   attributes?: LinkAttributes,
+// ): AutoLinkNode {
+//   return new AutoUnflurLinkNode(url, attributes);
+// }
+
+// export function $isAutoUnlfurLinkNode(
+//   node: LexicalNode | null | undefined,
+// ): node is AutoUnflurLinkNode {
+//   return node instanceof AutoUnflurLinkNode;
+// }
 
 export const TOGGLE_LINK_COMMAND: LexicalCommand<
   string | ({url: string} & LinkAttributes) | null
